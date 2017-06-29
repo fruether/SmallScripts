@@ -7,15 +7,14 @@ import csv
 from smtplib import SMTP_SSL as SMTP   
 from email.mime.text import MIMEText
 
+USERNAME = "softlang"
+PASSWORD = ""
+destinationNameSender = "/Users/freddy/Desktop/NameEmail.csv"
+
 
 SMTPserver = 'smtp.uni-koblenz.de:465'
-sender =     ''
-destination = ''
+sender =     'softlang@uni-koblenz.de'
 
-USERNAME = ""
-PASSWORD = ""
-
-destinationNameSender = "/Users/freddy/Desktop/NameEmail.csv"
 # typical values for text_subtype are plain, html, xml
 text_subtype = 'html'
 
@@ -47,8 +46,6 @@ def read_csv():
     with open(destinationNameSender, mode='rU') as infile:
         reader = csv.reader(infile, delimiter=";")
         emailName = {rows[0]:rows[1] for rows in reader}
-    for key, value in emailName.iteritems():
-        print " " + key + " " + value
     return emailName
 
         
@@ -56,6 +53,8 @@ def read_csv():
 try:
     print "Trying to connect"
     conn = SMTP(SMTPserver)
+    conn.set_debuglevel(False)
+    conn.login(USERNAME, PASSWORD)
     print "Connected now reading the csv file " + destinationNameSender
     emailName = read_csv()
     print "Trying to send E-Mails"
@@ -66,15 +65,12 @@ try:
         msg = MIMEText(content, text_subtype)
         msg['Subject']=       subject
         msg['From']   = sender # some SMTP servers will do this automatically, not all
-
-
-        msg['To']   = destination
-        conn.set_debuglevel(False)
-        conn.login(USERNAME, PASSWORD)
-        try:
-            conn.sendmail(sender, destination, msg.as_string())
-        finally:
-            conn.quit()
-
+        msg['cc'] = "softlang@uni-koblenz.de"
+        msg['To']   = email
+        
+        conn.sendmail(sender, email, msg.as_string())
+        
+            
+    conn.quit()
 except Exception, exc:
     sys.exit( "mail failed; %s" % str(exc) ) # give a error message
