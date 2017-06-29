@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 
 USERNAME = "softlang"
 PASSWORD = ""
-destinationNameSender = "/Users/freddy/Desktop/NameEmail.csv"
+destinationNameSender = "EmailDeveloper.csv"
 
 
 SMTPserver = 'smtp.uni-koblenz.de:465'
@@ -19,24 +19,20 @@ sender =     'softlang@uni-koblenz.de'
 text_subtype = 'html'
 
 template="""\
-Dear [Developer], <br><br>
+Dear [Name], <br>
+<br>
+I would like to kindly remind you about our developer survey on API usage in the Elasticsearch project. The survey is open till next week Friday. We appreciate your participation in the survey that helps our research on software development: <br><br>
 
-we, the Softlang research group of the University of Koblenz, would like to remind you about our survey related to
-API usage in the Elasticsearch project. 
-The survey is open till next week Friday and we need your participation for a successfull research:
-<br>
-<br>
-<a href="https://www.soscisurvey.de/softlang/">https://www.soscisurvey.de/softlang/</a> - takes about 5 minutes
-<br>
-<br>
-If you don't want to participate in the survey you would really help us if you shortly response to
-this email and explain why and how we could improve.
-<br>
-<br>
-Best regards and thanks in advance<br>
-Ralf Laemmel and the Softlang team<br>
----<br>
-http://www.softlang.org/
+<a href="https://www.soscisurvey.de/softlang/">https://www.soscisurvey.de/softlang/</a> - takes about 5 minutes <br><br>
+If you don't want to participate in the survey, we would still appreciate your feedback, thereby possibly helping us with improving our surveying approach. To provide feedback outside the survey form, simply respond to this email.<br><br>
+
+Thank you<br>
+Ralf Laemmel for the Softlang team<br>
+University of Koblenz-Landau<br>
+Computer Science Faculty<br>
+Germany<br>
+<a href="http://www.softlang.org/">http://www.softlang.org/</a><br>
+<a href="http://www.softlang.org/rlaemmel:home">http://www.softlang.org/rlaemmel:home</a>
 
 """
 
@@ -61,7 +57,7 @@ try:
 
     for email, name in emailName.iteritems():
         print "Sending mail to " + email + " with name " + name
-        content = template.replace("[Developer]", name)
+        content = template.replace("[Name]", name)
         msg = MIMEText(content, text_subtype)
         msg['Subject']=       subject
         msg['From']   = sender # some SMTP servers will do this automatically, not all
